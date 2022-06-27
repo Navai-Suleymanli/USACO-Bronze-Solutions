@@ -1,35 +1,32 @@
 #include <iostream>
-#include <fstream>
 using namespace std;
 
-struct Rectangle {
+struct Rect{
     int x1, y1, x2, y2;
 };
 
-int area(Rectangle r) {
+int area(Rect r){
     return (r.x2 - r.x1) * (r.y2 - r.y1);
 }
 
-int overlap(Rectangle a, Rectangle b) {
-    int x_overlap = max(0, min(a.x2, b.x2) - max(a.x1, b.x1));
-    int y_overlap = max(0, min(a.y2, b.y2) - max(a.y1, b.y1));
+int intersect_area(Rect p, Rect q){
+    int x_overlap = max(0, min(q.x2, p.x2) - max(p.x1, q.x1) );
+    int y_overlap = max(0, min(q.y2, p.y2) - max(p.y1, q.y1));
     return x_overlap * y_overlap;
 }
 
+
 int main() {
-    ifstream fin("billboard.in");
-    ofstream fout("billboard.out");
-
-    Rectangle a, b, c;
-    int visible_area;
-
-    fin >> a.x1 >> a.y1 >> a.x2 >> a.y2;
-    fin >> b.x1 >> b.y1 >> b.x2 >> b.y2;
-    fin >> c.x1 >> c.y1 >> c.x2 >> c.y2;
-
-    visible_area = area(a) + area(b) - overlap(a, c) - overlap(b, c);
-
-    fout << visible_area << "\n";
-
-    return 0;
+    ios::sync_with_stdio(0);
+    
+    Rect a, b, t;
+    
+    cin>>a.x1>>a.y1>>a.x2>>a.y2;
+    cin>>b.x1>>b.y1>>b.x2>>b.y2;
+    cin>>t.x1>>t.y1>>t.x2>>t.y2;
+    
+    cout<< area(a) + area(b) - intersect_area(a, t) - intersect_area(b , t)<<"\n";
+    
+	// your code goes here
+	return 0;
 }
